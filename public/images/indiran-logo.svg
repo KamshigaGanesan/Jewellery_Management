@@ -1,0 +1,35 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Indiran Jewellers Logo</title>
+  <desc id="desc">Green square logo with gold crest and Tamil lettering, inspired by the provided reference image.</desc>
+  <defs>
+    <linearGradient id="gold" x1="96" y1="48" x2="416" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3C4" />
+      <stop offset="0.45" stop-color="#D8B14A" />
+      <stop offset="1" stop-color="#8F6A17" />
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B2A16" />
+      <stop offset="1" stop-color="#0A1F12" />
+    </linearGradient>
+    <filter id="shadow" x="48" y="32" width="416" height="448" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect x="12" y="12" width="488" height="488" fill="url(#green)" stroke="url(#gold)" stroke-width="8" />
+  <g filter="url(#shadow)">
+    <path d="M256 84 C271 84 282 94 282 109 C282 121 274 132 263 136 L263 148 L249 148 L249 136 C238 132 230 121 230 109 C230 94 241 84 256 84Z" fill="url(#gold)"/>
+    <path d="M185 92 C175 78 160 74 146 79 C157 92 167 104 173 119 L186 111 C184 104 181 98 185 92Z" fill="url(#gold)"/>
+    <path d="M327 92 C337 78 352 74 366 79 C355 92 345 104 339 119 L326 111 C328 104 331 98 327 92Z" fill="url(#gold)"/>
+    <path d="M135 167 C122 160 116 146 120 131 C133 136 145 143 157 153 L149 165 C145 163 140 161 135 167Z" fill="url(#gold)"/>
+    <path d="M377 167 C390 160 396 146 392 131 C379 136 367 143 355 153 L363 165 C367 163 372 161 377 167Z" fill="url(#gold)"/>
+    <circle cx="256" cy="184" r="90" fill="none" stroke="url(#gold)" stroke-width="10"/>
+    <circle cx="256" cy="184" r="73" fill="#08301A" stroke="url(#gold)" stroke-width="4"/>
+    <text x="256" y="214" text-anchor="middle" fill="#FBE39A" font-size="104" font-weight="800" font-family="Georgia, Times New Roman, serif" letter-spacing="-10">IJ</text>
+    <path d="M228 225 C228 211 239 202 253 202 H282 C279 214 275 224 267 232 C260 240 250 246 239 249 C234 244 231 236 228 225Z" fill="url(#gold)" opacity="0.18"/>
+  </g>
+  <g>
+    <rect x="44" y="298" width="424" height="10" rx="5" fill="url(#gold)" opacity="0.7"/>
+    <text x="256" y="360" text-anchor="middle" fill="#F9EED0" font-size="56" font-weight="700" font-family="Noto Serif Tamil, Latha, Tamil MN, serif">இந்திரன்</text>
+    <text x="256" y="420" text-anchor="middle" fill="url(#gold)" font-size="46" font-weight="700" font-family="Noto Serif Tamil, Latha, Tamil MN, serif">ஜூவல்லர்ஸ்</text>
+  </g>
+</svg>

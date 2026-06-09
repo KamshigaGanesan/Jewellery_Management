@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Luxury Tamil jewelry theme */
+:root,
+.light,
+.dark {
+  --color-bg: #f6efe5;
+  --color-bg-elevated: #fff8ee;
+  --color-bg-card: rgba(255, 250, 242, 0.9);
+  --color-text: #221814;
+  --color-text-muted: #705b4d;
+  --color-border: rgba(127, 84, 40, 0.16);
+  --color-header: rgba(255, 247, 236, 0.9);
+  --color-hero-overlay: rgba(38, 18, 12, 0.42);
+  --color-maroon: #6a2332;
+  --color-maroon-light: #9a4b57;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased transition-colors duration-300;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    background-image:
+      radial-gradient(circle at top, rgba(212, 175, 55, 0.2), transparent 34%),
+      radial-gradient(circle at 85% 15%, rgba(106, 35, 50, 0.12), transparent 22%),
+      linear-gradient(180deg, #f7efe4 0%, #f4ebde 46%, #efe4d4 100%);
+  }
+
+  ::selection {
+    @apply bg-gold/30;
+    color: var(--color-text);
+  }
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+@layer components {
+  .gold-text {
+    @apply bg-gradient-to-r from-[#fef6d9] via-gold to-[#9d6c16] bg-clip-text text-transparent;
+  }
+
+  .gold-border {
+    @apply border border-gold/40;
+  }
+
+  .luxury-card {
+    @apply overflow-hidden rounded-[1.5rem] border backdrop-blur-xl transition-all duration-300;
+    border-color: var(--color-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.2)),
+      var(--color-bg-card);
+  }
+
+  .luxury-card:hover {
+    @apply border-gold/45 shadow-2xl shadow-[#91652a]/10;
+    transform: translateY(-2px);
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/30 bg-gradient-to-r from-gold via-[#f4d46e] to-[#b88412] px-5 py-2.5 text-sm font-medium text-charcoal-dark shadow-lg shadow-gold/15 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-gold/25;
+  }
+
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/35 px-4 py-2 text-sm font-medium text-gold transition-all duration-200 hover:bg-gold/10 hover:text-[#855a12];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[#fff7eb] px-4 py-2 text-sm font-medium text-charcoal-dark transition-transform duration-150 hover:-translate-y-0.5;
+  }
+
+  .section-padding {
+    @apply px-4 py-16 md:px-8 md:py-24 lg:px-12;
+  }
+
+  .heading-xl {
+    @apply font-serif text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl;
+  }
+
+  .heading-lg {
+    @apply font-serif text-3xl font-semibold tracking-tight md:text-4xl;
+  }
+
+  .site-header {
+    background-color: var(--color-header);
+    border-color: var(--color-border);
+  }
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  .bg-elevated {
+    background-color: var(--color-bg-elevated);
+  }
+
+  .luxury-grid {
+    background-image:
+      linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .luxury-panel {
+    @apply rounded-[2rem] border border-gold/15 bg-white/55 backdrop-blur-xl;
+    box-shadow: 0 20px 80px rgba(84, 56, 22, 0.08);
+  }
+
+  .section-ribbon {
+    @apply relative overflow-hidden;
+  }
+
+  .section-ribbon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(212, 175, 55, 0.12), transparent 45%);
+    pointer-events: none;
+  }
+
+  .shimmer-line {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(212, 175, 55, 0.4),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float-slow 7s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
