@@ -208,8 +208,7 @@ IndiranJewellers/
 ## Author
 
 Developed By:
-
-Mathupriya N
+Kamshiga G
 
 Full Stack Developer
 
