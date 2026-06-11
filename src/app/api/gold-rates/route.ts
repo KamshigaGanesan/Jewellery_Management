@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { connectToDatabase } from "@/lib/db";
 import { requireAdmin } from "@/lib/api-auth";
@@ -6,7 +7,7 @@ import { GoldRateModel } from "@/lib/models";
 import { summarizeGoldRates } from "@/lib/commerce";
 
 const singleRateSchema = z.object({
-  type: z.enum(["22K", "24K", "Silver"]),
+  type: z.enum(["22K", "24K"]),
   pricePerGram: z.coerce.number().positive(),
 });
 
@@ -18,10 +19,9 @@ const goldRateSchema = z
     date: z.string().min(8).optional(),
     gold22k: z.coerce.number().positive().optional(),
     gold24k: z.coerce.number().positive().optional(),
-    silver: z.coerce.number().positive().optional(),
   })
-  .refine((value) => Boolean(value.rates?.length || (value.gold22k && value.gold24k && value.silver)), {
-    message: "Provide rates or legacy gold22k, gold24k and silver values.",
+  .refine((value) => Boolean(value.rates?.length || (value.gold22k && value.gold24k)), {
+    message: "Provide rates or legacy gold22k and gold24k values.",
   });
 
 const patchSchema = z.object({
@@ -38,6 +38,12 @@ const deleteSchema = z.object({
 async function loadRateSummary() {
   const rates = await GoldRateModel.find().sort({ recordedOn: -1, updatedAt: -1 }).limit(120).lean();
   return summarizeGoldRates(rates);
+}
+
+function refreshRatePages() {
+  revalidatePath("/");
+  revalidatePath("/gold-price");
+  revalidatePath("/update-gold-rate");
 }
 
 export async function GET() {
@@ -58,7 +64,6 @@ export async function POST(request: Request) {
       payload.rates || [
         { type: "22K" as const, pricePerGram: payload.gold22k as number },
         { type: "24K" as const, pricePerGram: payload.gold24k as number },
-        { type: "Silver" as const, pricePerGram: payload.silver as number },
       ];
     await connectToDatabase();
     const savedRates = [];
@@ -90,6 +95,7 @@ export async function POST(request: Request) {
     }
 
     const ratesSummary = await loadRateSummary();
+    refreshRatePages();
     return NextResponse.json({ rates: ratesSummary });
   } catch {
     return NextResponse.json({ error: "Unable to update gold rate" }, { status: 500 });
@@ -117,6 +123,7 @@ export async function PATCH(request: Request) {
 
     await GoldRateModel.findByIdAndUpdate(payload.id, updateData, { new: true });
     const ratesSummary = await loadRateSummary();
+    refreshRatePages();
     return NextResponse.json({ rates: ratesSummary });
   } catch {
     return NextResponse.json({ error: "Unable to edit gold rate entry" }, { status: 500 });
@@ -135,6 +142,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Rate entry not found" }, { status: 404 });
     }
     const ratesSummary = await loadRateSummary();
+    refreshRatePages();
     return NextResponse.json({ rates: ratesSummary });
   } catch {
     return NextResponse.json({ error: "Unable to delete gold rate entry" }, { status: 500 });

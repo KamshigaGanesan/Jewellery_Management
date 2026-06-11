@@ -10,37 +10,22 @@ import { formatDate } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const { featured, latestRates } = await getHomeData();
-  const featuredProducts = featured.map((product) => ({
+  const { latestArrivals, latestRates } = await getHomeData();
+  const arrivalProducts = latestArrivals.map((product) => ({
     ...product,
     slug: typeof product.slug === "string" ? product.slug : product.slug?.current ?? String(product._id),
   })) as Product[];
-  const testimonials = [
-    {
-      name: "Kavitha Selvarajah",
-      text: "Clear pricing, beautiful finish, and very helpful service.",
-    },
-    {
-      name: "Suthan Family",
-      text: "Our thali and jimikki were made exactly how we wanted.",
-    },
-    {
-      name: "Tharshika Rajan",
-      text: "Quick WhatsApp reply and trustworthy showroom service.",
-    },
-  ];
-
   return (
     <div className="pb-14 pt-20 md:pt-24">
       <section className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="grid gap-8 overflow-hidden rounded-[2.25rem] border border-gold/12 bg-[linear-gradient(180deg,rgba(255,250,242,0.92),rgba(247,239,228,0.82))] p-5 shadow-[0_24px_90px_rgba(122,84,40,0.08)] md:grid-cols-[0.85fr_1.15fr] md:p-8 lg:min-h-[76vh] lg:items-center">
+        <div className="grid gap-8 overflow-hidden rounded-[2.25rem] border border-gold/12 bg-[linear-gradient(180deg,rgba(255,250,242,0.92),rgba(247,239,228,0.82))] p-5 shadow-[0_24px_90px_rgba(122,84,40,0.08)] md:grid-cols-[0.78fr_1.22fr] md:p-8 lg:min-h-[78vh] lg:items-center">
           <div className="space-y-4 lg:pr-4">
             <p className="text-xs uppercase tracking-[0.45em] text-gold/75">Indiran Jewellers · Chavakachcheri</p>
             <h1 className="max-w-xl font-serif text-3xl leading-tight text-[#2b1c15] md:text-4xl lg:text-5xl">
-              Sri Lankan Tamil jewellery for bridal and everyday wear.
+              Sri Lankan Tamil bridal jewellery with a heritage finish.
             </h1>
             <p className="max-w-xl text-sm leading-7 text-[var(--color-text-muted)] md:text-[15px]">
-              Bridal gold, thali, haram, jimikki, and daily wear selected for families in Jaffna.
+              Bridal sets, thali, haram, jimikki, and daily gold in a warm luxury style.
             </p>
             <div className="flex flex-wrap gap-3 pt-1">
               <Link href="/collections" className="btn-gold shadow-[0_12px_30px_rgba(212,175,55,0.18)]">
@@ -58,11 +43,11 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-2 pt-3 text-[11px] uppercase tracking-[0.3em] text-[#7c6251]">
               <span className="rounded-full border border-gold/15 bg-white/60 px-3.5 py-2">Bridal Gold</span>
               <span className="rounded-full border border-gold/15 bg-white/60 px-3.5 py-2">Temple Jewellery</span>
-              <span className="rounded-full border border-gold/15 bg-white/60 px-3.5 py-2">Jaffna Heritage</span>
+              <span className="rounded-full border border-gold/15 bg-white/60 px-3.5 py-2">Tamil Heritage</span>
             </div>
           </div>
 
-          <div className="relative min-h-[460px] overflow-hidden rounded-[2rem] bg-[#1b100c] md:min-h-[660px]">
+          <div className="relative min-h-[500px] overflow-hidden rounded-[2rem] bg-[#1b100c] md:min-h-[700px]">
             <Image
               src={JEWELRY_IMAGES.hero[0]}
               alt="Tamil bride wearing traditional gold jewellery"
@@ -89,35 +74,33 @@ export default async function HomePage() {
       <section className="mx-auto mt-12 max-w-7xl px-4 md:px-8">
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-gold/70">Featured Collections</p>
-            <h2 className="mt-2 font-serif text-3xl text-[#2b1c15] md:text-4xl">Actual products from the showroom</h2>
+            <p className="text-xs uppercase tracking-[0.35em] text-gold/70">Latest Arrivals</p>
+            <h2 className="mt-2 font-serif text-3xl text-[#2b1c15] md:text-4xl">New pieces added by the owner</h2>
           </div>
           <Link href="/collections" className="hidden text-sm text-gold md:inline-flex">
             View all
           </Link>
         </div>
-        <ProductGrid products={featuredProducts.slice(0, 4)} emptyMessage="No featured products available yet." />
+        <ProductGrid products={arrivalProducts.slice(0, 4)} emptyMessage="No new collections available yet." />
       </section>
 
       <section className="mx-auto mt-12 max-w-7xl px-4 md:px-8">
-        <div className="grid gap-4 rounded-[2rem] border border-gold/12 bg-[#f7efe4] p-5 md:grid-cols-4 md:p-8">
-          <div className="md:col-span-4">
+        <div className="grid gap-4 rounded-[2rem] border border-gold/12 bg-[#f7efe4] p-5 md:grid-cols-2 md:p-8">
+          <div className="md:col-span-2">
             <p className="text-xs uppercase tracking-[0.35em] text-gold/70">Gold Rate</p>
             <h2 className="mt-2 font-serif text-3xl text-[#2b1c15]">Daily live rates</h2>
           </div>
-          <div className="rounded-[1.5rem] border border-gold/15 bg-white/75 p-5 shadow-[0_14px_30px_rgba(122,84,40,0.06)]">
+          <div className="rounded-[1.75rem] border border-gold/15 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(255,246,229,0.84))] p-6 shadow-[0_18px_42px_rgba(122,84,40,0.08)]">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]">22K Gold Rate / gram</p>
-            <p className="mt-3 font-serif text-3xl text-gold">Rs. {latestRates?.gold22k?.toLocaleString("en-LK") ?? "-"}</p>
+            <p className="mt-4 font-serif text-4xl text-gold">Rs. {latestRates?.gold22k?.toLocaleString("en-LK") ?? "-"}</p>
+            <p className="mt-3 text-sm text-[var(--color-text-muted)]">For traditional jewellery and daily gold purchases.</p>
           </div>
-          <div className="rounded-[1.5rem] border border-gold/15 bg-white/75 p-5 shadow-[0_14px_30px_rgba(122,84,40,0.06)]">
+          <div className="rounded-[1.75rem] border border-gold/15 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(251,239,218,0.9))] p-6 shadow-[0_18px_42px_rgba(122,84,40,0.08)]">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]">24K Gold Rate / gram</p>
-            <p className="mt-3 font-serif text-3xl text-gold">Rs. {latestRates?.gold24k?.toLocaleString("en-LK") ?? "-"}</p>
+            <p className="mt-4 font-serif text-4xl text-gold">Rs. {latestRates?.gold24k?.toLocaleString("en-LK") ?? "-"}</p>
+            <p className="mt-3 text-sm text-[var(--color-text-muted)]">For pure gold guidance and clear showroom estimates.</p>
           </div>
-          <div className="rounded-[1.5rem] border border-gold/15 bg-white/75 p-5 shadow-[0_14px_30px_rgba(122,84,40,0.06)]">
-            <p className="text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]">Silver Rate / gram</p>
-            <p className="mt-3 font-serif text-3xl text-gold">Rs. {latestRates?.silver?.toLocaleString("en-LK") ?? "-"}</p>
-          </div>
-          <div className="rounded-[1.5rem] border border-gold/15 bg-white/75 p-5 shadow-[0_14px_30px_rgba(122,84,40,0.06)] md:col-span-4">
+          <div className="rounded-[1.5rem] border border-gold/15 bg-white/75 p-5 shadow-[0_14px_30px_rgba(122,84,40,0.06)] md:col-span-2">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]">Last updated</p>
             <p className="mt-2 text-sm text-[var(--color-text)]">{latestRates?.recordedOn ? formatDate(latestRates.recordedOn) : "Pending update"}</p>
             <div className="mt-4">
@@ -133,9 +116,9 @@ export default async function HomePage() {
         <div className="grid gap-6 rounded-[2rem] border border-gold/12 bg-[linear-gradient(180deg,rgba(255,250,242,0.94),rgba(248,240,227,0.78))] p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-gold/70">WhatsApp Inquiry</p>
-            <h2 className="mt-2 font-serif text-3xl text-[#2b1c15]">Send a photo or ask for the exact piece on WhatsApp</h2>
+            <h2 className="mt-2 font-serif text-3xl text-[#2b1c15]">Ask for a piece or send a photo on WhatsApp</h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--color-text-muted)]">
-              Share your design idea, bridal need, or collection interest and our showroom team will reply directly.
+              The showroom team will reply directly with price and availability.
             </p>
           </div>
           <a
@@ -146,17 +129,6 @@ export default async function HomePage() {
           >
             WhatsApp Message
           </a>
-        </div>
-      </section>
-
-      <section className="mx-auto mt-12 max-w-7xl px-4 md:px-8">
-        <div className="grid gap-4 md:grid-cols-3">
-          {testimonials.map((item) => (
-            <div key={item.name} className="luxury-card p-6">
-              <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">&ldquo;{item.text}&rdquo;</p>
-              <p className="mt-4 text-xs uppercase tracking-[0.28em] text-gold">{item.name}</p>
-            </div>
-          ))}
         </div>
       </section>
 

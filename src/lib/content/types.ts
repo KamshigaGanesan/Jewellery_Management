@@ -69,6 +69,8 @@ export interface Product {
   isTrending?: boolean;
   isNew?: boolean;
   isBestSeller?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface GoldPrice {

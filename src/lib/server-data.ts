@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/lib/db";
-import { CategoryModel, GoldRateModel, ProductModel, ReviewModel } from "@/lib/models";
+import { CategoryModel, GoldRateModel, ProductModel } from "@/lib/models";
 import {
   calculateEstimatedPrice,
   summarizeGoldRates,
@@ -10,9 +10,10 @@ import {
 export async function getHomeData() {
   try {
     await connectToDatabase();
-    const [featured, trending, categories, latestRates] = await Promise.all([
+    const [featured, trending, latestArrivals, categories, latestRates] = await Promise.all([
       ProductModel.find({ isFeatured: true }).sort({ createdAt: -1 }).limit(8).lean(),
       ProductModel.find({ isTrending: true }).sort({ createdAt: -1 }).limit(8).lean(),
+      ProductModel.find().sort({ createdAt: -1 }).limit(8).lean(),
       CategoryModel.find().sort({ name: 1 }).limit(9).lean(),
       GoldRateModel.find().sort({ recordedOn: -1, updatedAt: -1 }).limit(90).lean(),
     ]);
@@ -28,6 +29,7 @@ export async function getHomeData() {
     return {
       featured: withPrices(featured as ProductLike[]),
       trending: withPrices(trending as ProductLike[]),
+      latestArrivals: withPrices(latestArrivals as ProductLike[]),
       categories,
       latestRates: rateSummary,
     };
@@ -35,6 +37,7 @@ export async function getHomeData() {
     return {
       featured: [],
       trending: [],
+      latestArrivals: [],
       categories: [],
       latestRates: summarizeGoldRates([]),
     };
@@ -67,10 +70,7 @@ export async function getProductDetail(slug: string) {
       typeof product.category === "object" && product.category !== null
         ? product.category._id ?? product.category
         : product.category;
-    const [related, reviews] = await Promise.all([
-      ProductModel.find({ category: categoryId, slug: { $ne: slug } }).limit(4).lean(),
-      ReviewModel.find({ product: product._id }).sort({ createdAt: -1 }).limit(8).lean(),
-    ]);
+    const related = await ProductModel.find({ category: categoryId, slug: { $ne: slug } }).limit(4).lean();
     const rateRecords = await GoldRateModel.find().sort({ recordedOn: -1, updatedAt: -1 }).limit(90).lean();
     const latestRates = summarizeGoldRates(rateRecords as GoldRateRecord[]);
 
@@ -83,7 +83,6 @@ export async function getProductDetail(slug: string) {
         ...item,
         displayPrice: calculateEstimatedPrice(item as ProductLike, latestRates),
       })),
-      reviews,
       latestRates,
     };
   } catch {

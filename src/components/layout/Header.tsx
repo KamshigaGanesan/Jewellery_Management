@@ -26,9 +26,9 @@ const featuredCollectionLinks = [
 ];
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Signature Services" },
-  { href: "/about", label: "About Us" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
+  { href: "/gold-price", label: "Gold Rate" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -207,7 +207,7 @@ export function Header() {
             </AnimatePresence>
           </div>
 
-          {navLinks.filter((link) => link.href !== "/").map((link) => {
+          {navLinks.map((link) => {
             const active = isActiveLink(link.href);
             return (
               <Link
@@ -257,6 +257,13 @@ export function Header() {
           >
             <nav className="px-4 py-4 md:px-8">
               <div className="grid gap-2">
+                <Link
+                  href="/"
+                  onClick={() => setMobileOpen(false)}
+                  className={`rounded-2xl border px-4 py-3 text-sm font-medium tracking-wide transition-all ${isActiveLink("/") ? "border-gold/25 bg-gold/10 text-gold" : "border-[var(--color-border)] bg-white/60 text-[var(--color-text)] hover:border-gold/25 hover:bg-white/90 hover:text-gold"}`}
+                >
+                  Home
+                </Link>
                 <button
                   type="button"
                   onClick={() => setCollectionsOpen((prev) => !prev)}

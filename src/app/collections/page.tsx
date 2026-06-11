@@ -22,8 +22,8 @@ export default async function CollectionsPage({
 }: {
   searchParams: Promise<{ q?: string; category?: string }>;
 }) {
-  const { q, category } = await searchParams;
-  const { products, categories } = await getCollectionsData(q, category);
+  await searchParams;
+  const { products, categories } = await getCollectionsData();
   const showcaseCollections = [
     {
       id: "c1",
@@ -82,7 +82,7 @@ export default async function CollectionsPage({
         <AnimatedSection>
           <SectionHeading
             title="Our Latest Collections"
-            subtitle="Clear category cards, elegant imagery, and direct browsing like a premium jewellery showcase."
+            subtitle="Browse actual showroom pieces with simple category tabs and responsive spacing."
           />
         </AnimatedSection>
 
@@ -165,7 +165,7 @@ export default async function CollectionsPage({
         </div>
 
         <div className="mt-12">
-          <ProductCatalog products={products} title={"Shop Collections"} />
+          <ProductCatalog products={products} title="Shop Collections" />
         </div>
       </section>
     </>

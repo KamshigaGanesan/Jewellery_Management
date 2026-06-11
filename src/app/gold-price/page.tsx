@@ -8,14 +8,14 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Daily Gold Price",
-  description: "Live 22K, 24K and silver rates for Indiran Jewellers.",
+  description: "Live 22K and 24K gold rates for Indiran Jewellers.",
 };
 
 export default async function GoldPricePage() {
   await connectToDatabase();
   const rates = await GoldRateModel.find().sort({ recordedOn: -1, updatedAt: -1 }).limit(90).lean();
   const summary = summarizeGoldRates(rates);
-  const latestRates = summary.history.slice(0, 3);
+  const latestRates = summary.history.filter((rate) => rate.type === "22K" || rate.type === "24K").slice(0, 4);
   const trendPoints = summary.history
     .slice()
     .reverse()
@@ -74,7 +74,7 @@ export default async function GoldPricePage() {
           <p className="mt-1 font-semibold text-[var(--color-text)]">{summary.recordedOn || "Pending"}</p>
         </div>
       </div>
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
+      <div className="mt-6 grid gap-4 md:grid-cols-2">
         <div className="luxury-card p-5">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -94,11 +94,6 @@ export default async function GoldPricePage() {
             {trendIcon(summary.change24k)}
           </div>
           <p className="mt-3 text-sm text-[var(--color-text-muted)]">Change: {summary.change24k >= 0 ? "+" : ""}{summary.change24k.toLocaleString("en-LK")} per gram</p>
-        </div>
-        <div className="luxury-card p-5">
-          <p className="text-xs uppercase tracking-[0.35em] text-[var(--color-text-muted)]">Silver</p>
-          <p className="mt-2 font-serif text-3xl text-gold">Rs. {summary.silver?.toLocaleString("en-LK") ?? "-"}</p>
-          <p className="mt-3 text-sm text-[var(--color-text-muted)]">Change: {summary.changeSilver >= 0 ? "+" : ""}{summary.changeSilver.toLocaleString("en-LK")} per gram</p>
         </div>
       </div>
       <div className="mt-6 grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">

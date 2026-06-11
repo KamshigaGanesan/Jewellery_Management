@@ -1,40 +1,78 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { BadgeCheck, Gem, MessageCircle, Sparkles } from "lucide-react";
+import { BadgeCheck, Car, CircleDollarSign, Flame, Gem, Handshake, Landmark, PenLine, ScrollText, Sparkles, Wrench } from "lucide-react";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { JEWELRY_IMAGES, SHOP } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Signature Services",
   description:
-    "Signature jewellery services from Indiran Jewellers: bridal consultation, custom gold orders, repairs, polishing, and gold-rate guidance.",
+    "Trusted jewellery services, custom design, repairs, engraving, facilities, and forex support.",
 };
 
 const services = [
   {
-    title: "Bridal Gold Consultation",
-    text: "Personal guidance for thali, haram, jimikki, bangles, and matching wedding layers.",
-    icon: Gem,
+    title: "Forex",
+    text: "Reliable foreign exchange support including buying and selling foreign currencies and issuing foreign drafts, with competitive rates, secure transactions, and friendly service.",
+    icon: CircleDollarSign,
   },
   {
-    title: "Custom Jewellery Orders",
-    text: "Bring a reference photo, family design, or budget and we will help shape the piece.",
+    title: "Polished & Professional",
+    text: "Hand and machine engraving services for names, dates, messages, and meaningful details that turn jewellery into timeless keepsakes.",
+    icon: PenLine,
+  },
+  {
+    title: "Jewelry Repair & Restoration",
+    text: "Ring resizing, clasp replacement, redesigning, remodelling, polishing, and careful repair work handled by skilled craftsmen.",
+    icon: Wrench,
+  },
+  {
+    title: "Corporate Jewellery",
+    text: "Refined cufflinks, brooches, lapel pins, necklaces, and bracelets made with brand colours, subtle logos, or symbolic motifs for recognition and pride.",
+    icon: Handshake,
+  },
+  {
+    title: "Custom Jewellery Design",
+    text: "One-of-a-kind jewellery tailored to your vision, crafted with care, precision, and artistry from idea to final piece.",
     icon: Sparkles,
   },
   {
-    title: "Gold Rate Guidance",
-    text: "Clear daily rate support before choosing weight, purity, making, and final estimate.",
-    icon: BadgeCheck,
+    title: "Handwriting Jewellery",
+    text: "Send a photograph of a treasured note or card and we can engrave the actual handwriting onto a necklace, bracelet, or chosen custom piece.",
+    icon: ScrollText,
   },
   {
-    title: "WhatsApp Service",
-    text: "Send a photo or question directly and continue the conversation with the showroom team.",
-    icon: MessageCircle,
+    title: "Gold Melting & Thali Making",
+    text: "Gold melting (Ponnurukal) and custom Thali-making for Hindu weddings, created with purity, precision, and spiritual significance.",
+    icon: Flame,
+  },
+  {
+    title: "Gold Rate Guidance",
+    text: "Clear daily rate support before choosing weight, purity, making charges, and final estimate.",
+    icon: BadgeCheck,
   },
 ];
 
-const steps = ["Share your need", "Choose gold and design", "Confirm estimate", "Collect from showroom"];
+const facilities = [
+  {
+    title: "Exclusive Pooja Hall",
+    text: "A dedicated space for gold melting (Ponnurukal), specially arranged for crafting the Thali in Hindu wedding ceremonies.",
+    icon: Landmark,
+  },
+  {
+    title: "Prayer Room",
+    text: "Peaceful prayer room facilities for rituals, blessings, and quiet spiritual preparation.",
+    icon: Gem,
+  },
+  {
+    title: "Largest Parking Area in Sea Street",
+    text: "Convenient parking space designed to make every showroom visit easier for customers and families.",
+    icon: Car,
+  },
+];
+
+const steps = ["Share your need", "Choose service or design", "Confirm estimate", "Collect from showroom"];
 
 export default function ServicesPage() {
   return (
@@ -46,10 +84,10 @@ export default function ServicesPage() {
               Indiran Jewellers Services
             </p>
             <h1 className="mt-4 max-w-xl font-serif text-4xl leading-tight text-[#2b1c15] md:text-5xl">
-              Signature Services
+              Our services offer a complete experience
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-text-muted)] md:text-[15px]">
-              From bridal selection to custom gold requests, our showroom team helps you choose jewellery with clear pricing, traditional detail, and personal care.
+              We offer trusted services that combine craftsmanship, care, and convenience, delivering a complete experience from start to finish.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <WhatsAppButton />
@@ -94,6 +132,29 @@ export default function ServicesPage() {
               </article>
             );
           })}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-12 max-w-7xl px-4 md:px-8">
+        <div className="rounded-[2rem] border border-gold/12 bg-[#fffaf2] p-6 shadow-[0_18px_55px_rgba(122,84,40,0.07)] md:p-8">
+          <p className="text-xs uppercase tracking-[0.35em] text-gold/70">Our Facility at Ravi Jewellers</p>
+          <h2 className="mt-2 font-serif text-3xl text-[#2b1c15] md:text-4xl">
+            A space built for comfort, tradition, and trust
+          </h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {facilities.map((facility) => {
+              const Icon = facility.icon;
+              return (
+                <article key={facility.title} className="rounded-[1.5rem] border border-gold/12 bg-white/72 p-5">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/12 text-gold">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-4 font-serif text-2xl leading-tight text-[#2b1c15]">{facility.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[var(--color-text-muted)]">{facility.text}</p>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 

@@ -31,7 +31,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/admin/gold-rates");
+      router.push("/update-gold-rate");
       router.refresh();
     } catch {
       setMessage("Login failed. Please try again.");

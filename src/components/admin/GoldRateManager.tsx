@@ -5,7 +5,7 @@ import { ArrowDown, ArrowUp, Minus, Pencil, Trash2 } from "lucide-react";
 
 type RateRecord = {
   _id: string;
-  type: "22K" | "24K" | "Silver";
+  type: "22K" | "24K";
   pricePerGram: number;
   recordedOn: string;
   updatedBy?: string;
@@ -18,10 +18,8 @@ type GoldRateSummary = {
   updatedBy: string | null;
   gold22k: number | null;
   gold24k: number | null;
-  silver: number | null;
   change22k: number;
   change24k: number;
-  changeSilver: number;
   history: RateRecord[];
 };
 
@@ -31,10 +29,8 @@ const emptySummary: GoldRateSummary = {
   updatedBy: null,
   gold22k: null,
   gold24k: null,
-  silver: null,
   change22k: 0,
   change24k: 0,
-  changeSilver: 0,
   history: [],
 };
 
@@ -54,7 +50,6 @@ export function GoldRateManager() {
     date: new Date().toISOString().slice(0, 10),
     gold22k: "",
     gold24k: "",
-    silver: "",
   });
 
   async function loadRates() {
@@ -68,7 +63,6 @@ export function GoldRateManager() {
         date: nextSummary.recordedOn || current.date,
         gold22k: nextSummary.gold22k ? String(nextSummary.gold22k) : current.gold22k,
         gold24k: nextSummary.gold24k ? String(nextSummary.gold24k) : current.gold24k,
-        silver: nextSummary.silver ? String(nextSummary.silver) : current.silver,
       }));
     } catch {
       setStatus("Could not load rates.");
@@ -81,7 +75,10 @@ export function GoldRateManager() {
     loadRates();
   }, []);
 
-  const groupedHistory = useMemo(() => summary.history.slice(0, 18), [summary.history]);
+  const groupedHistory = useMemo(
+    () => summary.history.filter((entry) => entry.type === "22K" || entry.type === "24K").slice(0, 18),
+    [summary.history],
+  );
 
   async function submitRates(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -96,7 +93,6 @@ export function GoldRateManager() {
           date: form.date,
           gold22k: Number(form.gold22k),
           gold24k: Number(form.gold24k),
-          silver: Number(form.silver),
           updatedBy: "Owner",
         }),
       });
@@ -106,7 +102,7 @@ export function GoldRateManager() {
       }
       setSummary(data.rates || emptySummary);
       setStatus("Gold rates updated successfully.");
-      setForm((current) => ({ ...current, gold22k: "", gold24k: "", silver: "" }));
+      setForm((current) => ({ ...current, gold22k: "", gold24k: "" }));
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to update rates.");
     } finally {
@@ -163,7 +159,6 @@ export function GoldRateManager() {
       ...current,
       gold22k: summary.gold22k ? String(summary.gold22k) : current.gold22k,
       gold24k: summary.gold24k ? String(summary.gold24k) : current.gold24k,
-      silver: summary.silver ? String(summary.silver) : current.silver,
     }));
     setStatus("Filled latest values. Update only if needed, then click save.");
   }
@@ -188,11 +183,11 @@ export function GoldRateManager() {
 
         <div className="mb-4 rounded-2xl border border-gold/15 bg-gold/5 p-4 text-sm text-[var(--color-text-muted)]">
           <p className="font-medium text-[var(--color-text)]">How to update (2 steps)</p>
-          <p className="mt-1">1. Enter today&apos;s 22K, 24K and Silver price per gram.</p>
+          <p className="mt-1">1. Enter today&apos;s 22K and 24K price per gram.</p>
           <p>2. Click Save Today&apos;s Rates.</p>
         </div>
 
-        <form onSubmit={submitRates} className="grid gap-3 md:grid-cols-4">
+        <form onSubmit={submitRates} className="grid gap-3 md:grid-cols-3">
           <input
             type="date"
             required
@@ -218,16 +213,7 @@ export function GoldRateManager() {
             onChange={(event) => setForm((current) => ({ ...current, gold24k: event.target.value }))}
             className="rounded-2xl border border-[var(--color-border)] bg-white/70 px-4 py-3 text-sm outline-none focus:border-gold"
           />
-          <input
-            type="number"
-            required
-            min={1}
-            placeholder="Silver price per gram"
-            value={form.silver}
-            onChange={(event) => setForm((current) => ({ ...current, silver: event.target.value }))}
-            className="rounded-2xl border border-[var(--color-border)] bg-white/70 px-4 py-3 text-sm outline-none focus:border-gold"
-          />
-          <button disabled={saving} className="btn-gold md:col-span-4" type="submit">
+          <button disabled={saving} className="btn-gold md:col-span-3" type="submit">
             {saving ? "Saving rates..." : "Save Today\'s Rates"}
           </button>
         </form>

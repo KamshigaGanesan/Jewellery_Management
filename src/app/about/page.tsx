@@ -31,6 +31,9 @@ export default async function AboutPage() {
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             <h2 className="font-serif text-2xl text-gold">Our Story</h2>
+            <p className="mt-4 leading-relaxed text-[var(--color-text-muted)]">
+              The shop started in 1941 by Mr. Rasaiya Thevendran, built on trust, traditional craftsmanship, and careful service for generations of families.
+            </p>
             <p className="mt-4 leading-relaxed text-[var(--color-text-muted)]">{about.story}</p>
             <p className="mt-4 text-[var(--color-text-muted)]">{SHOP.address}</p>
             {about.yearsOfExperience && (
