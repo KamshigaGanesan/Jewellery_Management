@@ -15,29 +15,32 @@ export default async function HomePage() {
     ...product,
     slug: typeof product.slug === "string" ? product.slug : product.slug?.current ?? String(product._id),
   })) as Product[];
+
   return (
     <div className="pb-14 pt-20 md:pt-24">
       <section className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="grid gap-8 overflow-hidden rounded-[2.25rem] border border-gold/12 bg-[linear-gradient(180deg,rgba(255,250,242,0.92),rgba(247,239,228,0.82))] p-5 shadow-[0_24px_90px_rgba(122,84,40,0.08)] md:grid-cols-[0.78fr_1.22fr] md:p-8 lg:min-h-[78vh] lg:items-center">
+        <div className="grid gap-8 overflow-hidden rounded-[2.25rem] border border-gold/12 bg-[linear-gradient(180deg,rgba(255,250,242,0.92),rgba(247,239,228,0.82))] p-5 shadow-[0_24px_90px_rgba(122,84,40,0.08)] md:grid-cols-[0.78fr_1.22fr] md:items-center md:p-8 lg:min-h-[640px]">
           <div className="space-y-4 lg:pr-4">
-            <p className="text-xs uppercase tracking-[0.45em] text-gold/75">Indiran Jewellers · Chavakachcheri</p>
+            <p className="whitespace-nowrap text-[11px] uppercase tracking-[0.3em] text-gold/75 sm:text-xs">
+              Indiran Jewellers - Chavakachcheri
+            </p>
             <h1 className="max-w-xl font-serif text-3xl leading-tight text-[#2b1c15] md:text-4xl lg:text-5xl">
-              Sri Lankan Tamil bridal jewellery with a heritage finish.
+              Trusted Gold Jewellery for Jaffna Families
             </h1>
             <p className="max-w-xl text-sm leading-7 text-[var(--color-text-muted)] md:text-[15px]">
-              Bridal sets, thali, haram, jimikki, and daily gold in a warm luxury style.
+              Traditional bridal jewellery, thali designs, temple jewellery, and trusted daily-wear gold collections for every occasion.
             </p>
             <div className="flex flex-wrap gap-3 pt-1">
               <Link href="/collections" className="btn-gold shadow-[0_12px_30px_rgba(212,175,55,0.18)]">
-                Browse Collections
+                Explore Jewellery
               </Link>
               <a
-                href={`https://wa.me/${SHOP.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`Hello ${SHOP.name}, I would like to inquire about your jewellery collections.`)}`}
+                href={`https://wa.me/${SHOP.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`Hello ${SHOP.name}, I would like to know more about your jewellery collections.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-outline-gold bg-white/55"
               >
-                WhatsApp Inquiry
+                Talk to Us
               </a>
             </div>
             <div className="flex flex-wrap gap-2 pt-3 text-[11px] uppercase tracking-[0.3em] text-[#7c6251]">
@@ -47,7 +50,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative min-h-[500px] overflow-hidden rounded-[2rem] bg-[#1b100c] md:min-h-[700px]">
+          <div className="relative min-h-[460px] overflow-hidden rounded-[2rem] bg-[#1b100c] md:min-h-[560px] lg:min-h-[600px]">
             <Image
               src={JEWELRY_IMAGES.hero[0]}
               alt="Tamil bride wearing traditional gold jewellery"
@@ -59,13 +62,13 @@ export default async function HomePage() {
             />
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,12,8,0.25),rgba(20,12,8,0.02)_35%,rgba(20,12,8,0.14)),linear-gradient(180deg,rgba(20,12,8,0.02),rgba(20,12,8,0.3))]" />
             <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] border border-white/14 bg-black/28 p-4 text-white backdrop-blur-md md:bottom-6 md:left-6 md:right-6 md:p-5">
-              <p className="text-[10px] uppercase tracking-[0.35em] text-gold/80">Showroom Highlight</p>
+              <p className="text-[10px] uppercase tracking-[0.35em] text-gold/80">Trusted in Chavakachcheri</p>
               <p className="mt-2 text-sm leading-6 text-white/86">
-                Fine bridal layers, temple detail, and trusted daily gold pieces.
+                Quality Gold, Fair Pricing, Trusted Service
               </p>
             </div>
             <div className="absolute left-5 top-5 rounded-full border border-white/14 bg-white/14 px-4 py-2 text-[10px] uppercase tracking-[0.35em] text-white/90 backdrop-blur-md animate-float-slow">
-              Premium bridal mood
+              Bridal Collection
             </div>
           </div>
         </div>

@@ -2,16 +2,15 @@
 
 import { FormEvent, useState } from "react";
 
-export function AuthForm({ mode }: { mode: "login" | "register" }) {
+export function AuthForm() {
   const [message, setMessage] = useState("");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const payload = Object.fromEntries(formData.entries());
-    const endpoint = mode === "login" ? "/api/auth/login" : "/api/auth/register";
 
-    const response = await fetch(endpoint, {
+    const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -22,12 +21,10 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
   return (
     <form onSubmit={onSubmit} className="luxury-card space-y-4 p-6">
-      {mode === "register" && <input className="w-full rounded-xl border p-3" name="name" placeholder="Name" required />}
       <input className="w-full rounded-xl border p-3" name="email" type="email" placeholder="Email" required />
-      {mode === "register" && <input className="w-full rounded-xl border p-3" name="phone" placeholder="Phone" />}
       <input className="w-full rounded-xl border p-3" name="password" type="password" placeholder="Password" required />
       <button className="btn-gold w-full" type="submit">
-        {mode === "login" ? "Login" : "Create account"}
+        Login
       </button>
       {message && <p className="text-sm text-muted">{message}</p>}
     </form>

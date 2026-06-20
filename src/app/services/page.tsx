@@ -54,23 +54,6 @@ const services = [
   },
 ];
 
-const facilities = [
-  {
-    title: "Exclusive Pooja Hall",
-    text: "A dedicated space for gold melting (Ponnurukal), specially arranged for crafting the Thali in Hindu wedding ceremonies.",
-    icon: Landmark,
-  },
-  {
-    title: "Prayer Room",
-    text: "Peaceful prayer room facilities for rituals, blessings, and quiet spiritual preparation.",
-    icon: Gem,
-  },
-  {
-    title: "Largest Parking Area in Sea Street",
-    text: "Convenient parking space designed to make every showroom visit easier for customers and families.",
-    icon: Car,
-  },
-];
 
 const steps = ["Share your need", "Choose service or design", "Confirm estimate", "Collect from showroom"];
 
@@ -135,28 +118,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mx-auto mt-12 max-w-7xl px-4 md:px-8">
-        <div className="rounded-[2rem] border border-gold/12 bg-[#fffaf2] p-6 shadow-[0_18px_55px_rgba(122,84,40,0.07)] md:p-8">
-          <p className="text-xs uppercase tracking-[0.35em] text-gold/70">Our Facility at Ravi Jewellers</p>
-          <h2 className="mt-2 font-serif text-3xl text-[#2b1c15] md:text-4xl">
-            A space built for comfort, tradition, and trust
-          </h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {facilities.map((facility) => {
-              const Icon = facility.icon;
-              return (
-                <article key={facility.title} className="rounded-[1.5rem] border border-gold/12 bg-white/72 p-5">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/12 text-gold">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-4 font-serif text-2xl leading-tight text-[#2b1c15]">{facility.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-[var(--color-text-muted)]">{facility.text}</p>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      
 
       <section className="mx-auto mt-12 max-w-7xl px-4 md:px-8">
         <div className="grid gap-8 rounded-[2rem] border border-gold/12 bg-[#f7efe4] p-6 md:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
