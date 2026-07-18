@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { PageHero } from "@/components/layout/PageHero";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 import { getAbout } from "@/lib/content/fetch";
 import { JEWELRY_IMAGES, SHOP } from "@/lib/constants";
 
@@ -38,7 +39,7 @@ export default async function AboutPage() {
             <p className="mt-4 text-[var(--color-text-muted)]">{SHOP.address}</p>
             {about.yearsOfExperience && (
               <p className="mt-6 font-serif text-4xl text-gold">
-                {about.yearsOfExperience}+ Years
+                <AnimatedCounter value={about.yearsOfExperience} />+ Years
               </p>
             )}
           </AnimatedSection>

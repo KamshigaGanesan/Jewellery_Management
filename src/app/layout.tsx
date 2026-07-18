@@ -7,7 +7,12 @@ import { WishlistProvider } from "@/components/providers/WishlistProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ScrollRevealProvider } from "@/components/providers/ScrollRevealProvider";
 import { LuxuryCursorGlow } from "@/components/ui/LuxuryCursorGlow";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { BackToTop } from "@/components/ui/BackToTop";
+import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
+import { LuxuryLoader } from "@/components/ui/LuxuryLoader";
 import { SHOP } from "@/lib/constants";
+
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -66,13 +71,17 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`light ${playfair.variable} ${inter.variable} ${notoTamil.variable}`}
     >
-      <body className="font-sans text-[var(--color-text)]">
+      <body className="font-sans text-[var(--color-text)] relative">
         <ThemeProvider>
           <WishlistProvider>
             <ScrollRevealProvider>
+              <ScrollProgress />
+              <LuxuryLoader />
               <Header />
               <main className="relative min-h-screen overflow-x-hidden">{children}</main>
               <Footer />
+              <BackToTop />
+              <FloatingWhatsApp />
               <LuxuryCursorGlow />
             </ScrollRevealProvider>
           </WishlistProvider>

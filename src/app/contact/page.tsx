@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { SHOP } from "@/lib/constants";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -57,6 +58,13 @@ export default async function ContactPage() {
           </a>
         </div>
       </div>
+
+      {/* FAQ Section */}
+      <div className="mt-16">
+        <h2 className="heading-lg text-center mb-8 gold-text">Frequently Asked Questions</h2>
+        <FaqAccordion />
+      </div>
     </section>
   );
 }
+

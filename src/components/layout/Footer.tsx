@@ -40,9 +40,10 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/68 transition-colors hover:text-gold"
+                    className="relative text-sm text-white/68 transition-colors duration-500 hover:text-gold group/foot"
                   >
                     {link.label}
+                    <span className="absolute inset-x-0 -bottom-0.5 h-[1px] origin-left bg-gold scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/foot:scale-x-100" />
                   </Link>
                 </li>
               ))}
