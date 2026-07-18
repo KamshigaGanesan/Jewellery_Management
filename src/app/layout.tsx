@@ -5,6 +5,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WishlistProvider } from "@/components/providers/WishlistProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ScrollRevealProvider } from "@/components/providers/ScrollRevealProvider";
+import { LuxuryCursorGlow } from "@/components/ui/LuxuryCursorGlow";
 import { SHOP } from "@/lib/constants";
 
 const playfair = Playfair_Display({
@@ -67,12 +69,16 @@ export default function RootLayout({
       <body className="font-sans text-[var(--color-text)]">
         <ThemeProvider>
           <WishlistProvider>
-            <Header />
-            <main className="relative min-h-screen overflow-x-hidden">{children}</main>
-            <Footer />
+            <ScrollRevealProvider>
+              <Header />
+              <main className="relative min-h-screen overflow-x-hidden">{children}</main>
+              <Footer />
+              <LuxuryCursorGlow />
+            </ScrollRevealProvider>
           </WishlistProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

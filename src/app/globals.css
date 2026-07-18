@@ -48,6 +48,38 @@
       transform: translateY(-8px);
     }
   }
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    15% {
+      left: 150%;
+    }
+    100% {
+      left: 150%;
+    }
+  }
+
+  @keyframes subtle-glow {
+    0%, 100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
 }
 
 @layer components {
@@ -60,7 +92,7 @@
   }
 
   .luxury-card {
-    @apply overflow-hidden rounded-[1.5rem] border backdrop-blur-xl transition-all duration-300;
+    @apply overflow-hidden rounded-[1.5rem] border backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)];
     border-color: var(--color-border);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.2)),
@@ -68,20 +100,53 @@
   }
 
   .luxury-card:hover {
-    @apply border-gold/45 shadow-2xl shadow-[#91652a]/10;
-    transform: translateY(-2px);
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow: 
+      0 20px 40px rgba(145, 101, 42, 0.12),
+      0 0 25px rgba(212, 175, 55, 0.08);
+    transform: translateY(-4px) scale(1.01);
   }
 
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/30 bg-gradient-to-r from-gold via-[#f4d46e] to-[#b88412] px-5 py-2.5 text-sm font-medium text-charcoal-dark shadow-lg shadow-gold/15 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-gold/25;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/30 bg-gradient-to-r from-gold via-[#f4d46e] to-[#b88412] px-5 py-2.5 text-sm font-medium text-charcoal-dark shadow-lg shadow-gold/15 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative overflow-hidden;
+  }
+
+  .btn-gold::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: shine 4.5s infinite ease-in-out;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 
+      0 12px 24px rgba(212, 175, 55, 0.25),
+      0 0 15px rgba(212, 175, 55, 0.15);
   }
 
   .btn-outline-gold {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/35 px-4 py-2 text-sm font-medium text-gold transition-all duration-200 hover:bg-gold/10 hover:text-[#855a12];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/35 px-4 py-2 text-sm font-medium text-gold transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)];
+  }
+
+  .btn-outline-gold:hover {
+    @apply bg-gold/10 text-[#855a12];
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(212, 175, 55, 0.1);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[#fff7eb] px-4 py-2 text-sm font-medium text-charcoal-dark transition-transform duration-150 hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[#fff7eb] px-4 py-2 text-sm font-medium text-charcoal-dark transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5;
   }
 
   .section-padding {
@@ -89,16 +154,17 @@
   }
 
   .heading-xl {
-    @apply font-serif text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl;
+    @apply font-serif text-4xl font-semibold tracking-tight md:text-5xl lg:text-7xl transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)];
   }
 
   .heading-lg {
-    @apply font-serif text-3xl font-semibold tracking-tight md:text-4xl;
+    @apply font-serif text-3xl font-semibold tracking-tight md:text-4xl transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)];
   }
 
   .site-header {
     background-color: var(--color-header);
     border-color: var(--color-border);
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
   }
 
   .text-muted {
@@ -147,6 +213,51 @@
   .animate-float-slow {
     animation: float-slow 7s ease-in-out infinite;
   }
+
+  /* Scroll Reveal Classes */
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                letter-spacing 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .reveal-init.reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Custom Cursor Glow */
+  .luxury-cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.06) 0%, rgba(212, 175, 55, 0.015) 50%, transparent 100%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+    will-change: transform;
+  }
+
+  /* Custom Slow Image Hover Zoom */
+  .luxury-image-zoom {
+    @apply overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)];
+  }
+  
+  .luxury-image-zoom img {
+    @apply transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)];
+  }
+  
+  .luxury-image-zoom:hover img {
+    transform: scale(1.06);
+    filter: brightness(1.04);
+  }
 }
 
 @layer utilities {
@@ -154,3 +265,21 @@
     text-wrap: balance;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init,
+  .luxury-card,
+  .btn-gold,
+  .btn-gold::after,
+  .btn-outline-gold,
+  .luxury-image-zoom img,
+  .site-header {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .luxury-cursor-glow {
+    display: none !important;
+  }
+}
+

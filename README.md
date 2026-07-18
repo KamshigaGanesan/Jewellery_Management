@@ -61,6 +61,16 @@ The project focuses on simplicity, responsiveness, and a premium user experience
 * Manage collections through database updates
 * Scalable architecture for future enhancements
 
+### Premium Luxury UI/UX & Animations (New Updates)
+
+* **Intersection Observer Scroll Reveals**: Smooth slide-in animations (`translateY: 40px -> 0`) for sections and cards. Staggers children elements automatically by `80ms` delays to create a flowing page load experience.
+- **Custom Cursor Glow**: A soft, elegant, low-opacity golden radial gradient glow (`luxury-cursor-glow`) trailing the mouse cursor.
+- **Hero Parallax & Scale**: Interactive mouse parallax on spotlight images that moves elements subtly based on cursor position, accompanied by slow scaling transitions on image mounts (`1.05 -> 1.0`).
+- **Button Shimmer & Lifts**: Elegant shimmer sweeps passing across CTA buttons, paired with soft shadows and controlled hover scales (max `1.03`).
+- **Scroll-Aware Header Blur**: Sticky navigation transitions its blur depth, shadows, and borders dynamically as the user scrolls.
+- **Micro-Interactions**: Custom transitions, slow zooms, and brightness transitions on images and cards. Fully respects `prefers-reduced-motion` settings.
+
+
 ---
 
 ## Tech Stack

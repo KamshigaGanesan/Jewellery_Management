@@ -43,8 +43,14 @@ export function Header() {
   const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [rates, setRates] = useState<GoldRateSummary | null>(null);
   const collectionsCloseTimer = useRef<number | null>(null);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 15);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
     const controller = new AbortController();
 
     async function loadRates() {
@@ -63,6 +69,7 @@ export function Header() {
 
     loadRates();
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       controller.abort();
       if (collectionsCloseTimer.current) window.clearTimeout(collectionsCloseTimer.current);
     };
@@ -84,7 +91,7 @@ export function Header() {
   };
 
   return (
-    <header className="site-header fixed top-0 z-50 w-full border-b border-[var(--color-border)] bg-[rgba(255,247,236,0.92)] backdrop-blur-2xl">
+    <header className={`site-header fixed top-0 z-50 w-full border-b transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? "bg-[rgba(255,247,236,0.85)] border-gold/15 shadow-[0_12px_40px_rgba(84,56,22,0.06)] backdrop-blur-3xl" : "border-[var(--color-border)] bg-[rgba(255,247,236,0.92)] backdrop-blur-2xl"}`}>
       <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-3 md:px-8">
         <Logo variant="header" showText={true} />
 
@@ -94,7 +101,7 @@ export function Header() {
             className={`group relative py-2 text-[14px] font-medium tracking-wide transition-colors ${isActiveLink("/") ? "text-gold" : "text-[var(--color-text-muted)] hover:text-[var(--color-text)]"}`}
           >
             Home
-            <span className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-gold transition-transform duration-200 ${isActiveLink("/") ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+            <span className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActiveLink("/") ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
           </Link>
 
           <div
@@ -109,8 +116,8 @@ export function Header() {
               className={`group inline-flex items-center gap-1 py-2 text-[14px] font-medium tracking-wide transition-colors ${pathname.startsWith("/collections") ? "text-gold" : "text-[var(--color-text-muted)] hover:text-[var(--color-text)]"}`}
             >
               Collections
-              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${collectionsOpen ? "rotate-180" : ""}`} />
-              <span className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-gold transition-transform duration-200 ${pathname.startsWith("/collections") ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+              <ChevronDown className={`h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${collectionsOpen ? "rotate-180" : ""}`} />
+              <span className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${pathname.startsWith("/collections") ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
             </button>
 
             <AnimatePresence>
@@ -119,7 +126,7 @@ export function Header() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
-                  transition={{ duration: 0.18, ease: "easeOut" }}
+                  transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
                   className="fixed inset-x-6 top-[74px] z-50 pt-3"
                   onMouseEnter={openCollections}
                   onMouseLeave={closeCollections}
@@ -134,14 +141,14 @@ export function Header() {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="group/item flex min-h-[64px] items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-gold/8"
+                            className="group/item flex min-h-[64px] items-center gap-3 rounded-xl p-2.5 transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-gold/8"
                             onClick={() => setCollectionsOpen(false)}
                           >
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/18 bg-white font-serif text-[12px] text-gold shadow-[0_8px_22px_rgba(122,84,40,0.08)]">
+                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/18 bg-white font-serif text-[12px] text-gold shadow-[0_8px_22px_rgba(122,84,40,0.08)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/item:scale-105 group-hover/item:border-gold/30">
                               {item.initials}
                             </span>
                             <span className="min-w-0">
-                              <span className="block font-serif text-[17px] leading-tight text-[#2b1c15] transition-colors group-hover/item:text-gold">
+                              <span className="block font-serif text-[17px] leading-tight text-[#2b1c15] transition-colors duration-300 group-hover/item:text-gold">
                                 {item.label}
                               </span>
                               <span className="mt-0.5 block text-[11px] leading-4 text-[var(--color-text-muted)]">
@@ -162,17 +169,17 @@ export function Header() {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="flex items-center justify-between rounded-xl border border-gold/12 bg-white/72 px-4 py-3 text-sm font-medium text-[#2b1c15] transition-all hover:-translate-y-0.5 hover:border-gold/28 hover:text-gold"
+                            className="flex items-center justify-between rounded-xl border border-gold/12 bg-white/72 px-4 py-3 text-sm font-medium text-[#2b1c15] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-gold/28 hover:text-gold hover:shadow-[0_8px_20px_rgba(122,84,40,0.04)]"
                             onClick={() => setCollectionsOpen(false)}
                           >
                             {item.label}
-                            <span className="text-gold">+</span>
+                            <span className="text-gold transition-transform duration-300 group-hover:translate-x-1">+</span>
                           </Link>
                         ))}
                       </div>
                       <Link
                         href="/collections"
-                        className="mt-6 inline-flex text-sm font-semibold text-gold"
+                        className="mt-6 inline-flex text-sm font-semibold text-gold transition-colors duration-300 hover:text-gold-dark"
                         onClick={() => setCollectionsOpen(false)}
                       >
                         View all jewellery
@@ -188,7 +195,7 @@ export function Header() {
                         src="/images/menu/luthufunnissa.jpeg"
                         alt="Tamil bridal jewellery collection"
                         fill
-                        className="object-cover object-[center_20%] transition-transform duration-500 hover:scale-105"
+                        className="object-cover object-[center_20%] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105"
                         sizes="360px"
                       />
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(24,13,8,0.05),rgba(24,13,8,0.62))]" />
@@ -216,7 +223,7 @@ export function Header() {
                 className={`group relative py-2 text-[14px] font-medium tracking-wide transition-colors ${active ? "text-gold" : "text-[var(--color-text-muted)] hover:text-[var(--color-text)]"}`}
               >
                 {link.label}
-                <span className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-gold transition-transform duration-200 ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                <span className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
               </Link>
             );
           })}
@@ -225,10 +232,10 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/gold-price"
-            className="hidden items-center gap-3 rounded-full border border-gold/20 bg-white/78 px-3.5 py-2 text-[12px] text-[var(--color-text)] shadow-[0_12px_28px_rgba(122,84,40,0.08)] transition-all hover:-translate-y-0.5 hover:border-gold/35 hover:bg-white xl:inline-flex"
+            className="hidden items-center gap-3 rounded-full border border-gold/20 bg-white/78 px-3.5 py-2 text-[12px] text-[var(--color-text)] shadow-[0_12px_28px_rgba(122,84,40,0.08)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:scale-[1.03] hover:border-gold/35 hover:bg-white hover:shadow-[0_16px_36px_rgba(122,84,40,0.12)] xl:inline-flex"
             aria-label="View gold rate"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/12 text-gold">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/12 text-gold transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110">
               <Gem className="h-4 w-4" />
             </span>
             <span className="grid leading-tight">
@@ -238,7 +245,7 @@ export function Header() {
           </Link>
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full border border-gold/15 bg-white/70 p-2.5 text-[var(--color-text)] shadow-[0_10px_24px_rgba(0,0,0,0.04)] transition-all hover:-translate-y-0.5 hover:border-gold/30 hover:text-gold xl:hidden"
+            className="inline-flex items-center justify-center rounded-full border border-gold/15 bg-white/70 p-2.5 text-[var(--color-text)] shadow-[0_10px_24px_rgba(0,0,0,0.04)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-gold/30 hover:text-gold xl:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
